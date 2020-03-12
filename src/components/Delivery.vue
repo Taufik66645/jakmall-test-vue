@@ -4,7 +4,7 @@
       <span class="delivery-detail">
         <h1>Delivery Details</h1>
         <input type="checkbox" /><br />
-        <input type="text" placeholder="Email" class="input" v-model="this.email" @change="input"/>
+        <input type="text" placeholder="Email" class="input" v-model="msg">{{msg}}
         <input type="text" placeholder="Phone Number" class="input" />
         <input type="text" placeholder="Dropshipper Name" class="input"/>
         <input type="text" placeholder="Dropshipper Phone" class="input"/>
@@ -14,6 +14,8 @@
       <span class="summary">
         <h1>Summary</h1>
         <p>10 Items purchased</p>
+        <p>Cost of goods : </p>
+        <p>Dropshipping fee : </p>
         <button>Continue to payment</button></span
       >
     </div>
@@ -29,7 +31,7 @@ export default {
       phone: "",
       dropshipName: "",
       address: "",
-      dropshipPhone:""
+      dropshipPhone: ""
     }
   },
   methods:{
