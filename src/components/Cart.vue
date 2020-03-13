@@ -1,13 +1,15 @@
 <template>
   <div>
     <span class="product-card">
+      <h2>Cart</h2>
       <h3 class="product-name">Product 1</h3>
       <h3>Item Price : 50.000</h3>
 
       <h2>Quantity : {{ value }}</h2>
-      <h2>Total Price : {{ productPrice }}</h2>
       <button @click="minus">-</button>
       <button @click="plus">+</button><br />
+      <h3>Total Price : {{ productPrice }}</h3>
+
       <button class="button-purchase" @click="submit">Purchase</button>
     </span>
   </div>
@@ -25,6 +27,7 @@ export default {
   },
   methods: {
     minus() {
+      console.log(this.count);
       this.value = this.value - 1;
       this.productPrice = this.price * this.value;
 
@@ -38,7 +41,6 @@ export default {
     plus() {
       this.value++;
       this.productPrice = this.price * this.value;
-      console.log(this.value);
 
       if (this.value > 10) {
         this.value = 10;
@@ -46,8 +48,16 @@ export default {
         this.productPrice = 500000;
       }
     },
+
     submit() {
-      console.log("submit");
+      if (this.value >= 1) {
+        this.$router.replace("/delivery");
+
+        console.log(this.value);
+        console.log(this.productPrice);
+      } else {
+        alert("minimum quantity 1");
+      }
     }
   }
 };
@@ -59,6 +69,7 @@ div {
     background-color : white
     max-width: 500 px
     padding: 10 px
+
     .product-card {
         margin: auto
         max-width: 200 px

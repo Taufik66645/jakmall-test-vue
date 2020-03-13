@@ -3,21 +3,26 @@
     <div class="delivery-wrapper">
       <span class="delivery-detail">
         <h1>Shipment</h1>
-        <button>Go Send</button>
-        <button>JNE</button>
-        <button>Personal Courier</button>
+        <button @click="shipmentButton">Go Send</button>
+        <button @click="shipmentButton2">JNE</button>
+        <button @click="shipmentButton3">Personal Courier</button>
         <hr />
 
         <h1>Payment</h1>
-        <button>E - Wallet</button>
-        <button>Bank Transfer</button>
-        <button>Virtual Account</button>
+        <button @click="paymentButton">E - Wallet</button>
+        <button @click="paymentButton2">Bank Transfer</button>
+        <button @click="paymentButton3">Virtual Account</button>
       </span>
       <hr />
       <span class="summary">
         <h1>Summary</h1>
         <p>10 Items purchased</p>
-        <button>Pay</button></span
+        <p>
+          {{ this.shipmentMethod.result.type }} shipment :
+          {{ this.shipmentMethod.result.price }}
+        </p>
+        <p>Delivery Estimation <br />{{ this.shipmentMethod.result.time }}</p>
+        <button>Pay with {{ this.paymentResult.result }}</button></span
       >
     </div>
   </div>
@@ -25,19 +30,65 @@
 
 <script>
 export default {
-  name: "Delivery",
+  name: "Order",
   data() {
     return {
-      email: "",
-      phone: "",
-      dropshipName: "",
-      address: "",
-      dropshipPhone: ""
+      shipmentMethod: {
+        gosend: {
+          type: "Gosend",
+          price: "15.000",
+          time: "Today by Gosend"
+        },
+        jne: {
+          type: "JNE",
+          price: "9000",
+          time: "2 days by JNE"
+        },
+        personalCourier: {
+          type: "Personal Courier",
+          price: "29.000",
+          time: "1 day by Personal Courier"
+        },
+        result: {
+          type: "",
+          price: "",
+          time: ""
+        }
+      },
+      paymentMethod: {
+        ewallet: "e - wallet",
+        bankTransfer: " Bank Transfer",
+        vitualAccount: "virtual Account"
+      },
+      paymentResult: {
+        result: ""
+      }
     };
   },
   methods: {
-    input() {
-      console.log(this.email);
+    shipmentButton() {
+      this.shipmentMethod.result.time = this.shipmentMethod.gosend.time;
+      this.shipmentMethod.result.type = this.shipmentMethod.gosend.type;
+      this.shipmentMethod.result.price = this.shipmentMethod.gosend.price;
+    },
+    shipmentButton2() {
+      this.shipmentMethod.result.time = this.shipmentMethod.jne.time;
+      this.shipmentMethod.result.type = this.shipmentMethod.jne.type;
+      this.shipmentMethod.result.price = this.shipmentMethod.jne.price;
+    },
+    shipmentButton3() {
+      this.shipmentMethod.result.time = this.shipmentMethod.personalCourier.time;
+      this.shipmentMethod.result.type = this.shipmentMethod.personalCourier.type;
+      this.shipmentMethod.result.price = this.shipmentMethod.personalCourier.price;
+    },
+    paymentButton() {
+      this.paymentResult.result = this.paymentMethod.ewallet;
+    },
+    paymentButton2() {
+      this.paymentResult.result = this.paymentMethod.bankTransfer;
+    },
+    paymentButton3() {
+      this.paymentResult.result = this.paymentMethod.vitualAccount;
     }
   }
 };
