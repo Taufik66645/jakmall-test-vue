@@ -1,8 +1,8 @@
 <template>
   <div>
     <span class="product-card">
-      <h2>Cart</h2>
-      <h3 class="product-name">Product 1</h3>
+      <h2 class="cart">Cart</h2>
+      <h3>Product 1</h3>
       <h3>Item Price : 50.000</h3>
 
       <h2>Quantity : {{ value }}</h2>
@@ -16,18 +16,19 @@
 </template>
 
 <script>
+import { EventBus } from "./eventBus.js";
+
 export default {
   name: "Order",
   data() {
     return {
-      value: "0",
+      value: 0,
       price: "50000",
-      productPrice: "0"
+      productPrice: 0
     };
   },
   methods: {
     minus() {
-      console.log(this.count);
       this.value = this.value - 1;
       this.productPrice = this.price * this.value;
 
@@ -40,6 +41,7 @@ export default {
     },
     plus() {
       this.value++;
+
       this.productPrice = this.price * this.value;
 
       if (this.value > 10) {
@@ -50,11 +52,12 @@ export default {
     },
 
     submit() {
+      EventBus.$emit("ChangePrice", this.productPrice);
+      // EventBus.$emit("ChangePrice", this.productPrice);
+
+      console.log(this.value);
       if (this.value >= 1) {
         this.$router.replace("/delivery");
-
-        console.log(this.value);
-        console.log(this.productPrice);
       } else {
         alert("minimum quantity 1");
       }
@@ -65,23 +68,18 @@ export default {
 
 <style lang="stylus">
 
-div {
-    background-color : white
-    max-width: 500 px
-    padding: 10 px
 
-    .product-card {
-        margin: auto
-        max-width: 200 px
-        display: grid
 
-    .product-name {
-        color: coral
-        }
-    .button-purchase {
-        background-color: coral
-        color: white
-        }
+
+
+.cart{
+    color: coral
     }
-}
+.button-purchase {
+      background-color: coral
+      color: white
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-right: 100px;
+    }
 </style>

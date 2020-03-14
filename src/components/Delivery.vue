@@ -3,14 +3,12 @@
     <div class="delivery-wrapper">
       <form class="delivery-detail">
         <h1>Delivery Details</h1>
-
         <input
           type="checkbox"
-          id="dropshipCheck"
-          value="dropshipCheck"
-          v-model="dropshipCheck"
+          
+          @change="check($event)"
         />
-        <label for="dropshipCheck">Send as Dropshipper</label>
+
         <br />
         <input
           id="email"
@@ -55,20 +53,19 @@
       <hr />
       <span class="summary">
         <h1>Summary</h1>
-        <p @valuehange="productCount = $event">
-          {{ productCount }} Items purchased
-        </p>
-        <p @pricehange="productPrice = $event">
-          Cost of goods : Rp. {{ productPrice }}
-        </p>
-        <p>Dropshipping fee : Rp. {{ dropshipCheck }}</p>
-        <button @click="submit">Continue to payment</button>
+        <p>{{ productCount }} Items purchased</p>
+        <p>Cost of goods : Rp. {{ productPrice }}</p>
+        <p>Dropshipping fee : Rp. {{ checked }}</p>
+        <h3>Total : {{ productPrice }}</h3>
+        <button @click="button" class="button">Continue to payment</button>
       </span>
     </div>
   </div>
 </template>
 
 <script>
+import { EventBus } from "./eventBus.js";
+
 export default {
   name: "Delivery",
   data() {
@@ -80,21 +77,27 @@ export default {
       dropshipPhone: "",
       productCount: "",
       productPrice: "",
-      dropshipCheck: ""
+      dropshippriceCheck: "5900",
+      dropshipPrice: "",
+      totalPrice: ""
     };
   },
   methods: {
-    submit() {
-      if (this.email === "") {
-        this.$router.replace("/delivery");
-        alert("cant empty");
-      }
-      console.log(this.email);
-      console.log(this.phone);
-      console.log(this.address);
-      console.log(this.dropshipPhone);
-      console.log(this.phone);
+    button() {
+      this.$router.replace("/payment");
     }
+  },
+  
+    check: function() {
+		console.log('true')
+  },
+  created() {
+    EventBus.$on("ChangePrice", data => {
+      this.productPrice = data;
+    });
+  },
+  updates() {
+    this.totalPrice = this.productPrice + this.dropshippriceCheck;
   }
 };
 </script>
@@ -103,11 +106,13 @@ export default {
 .delivery-wrapper {
   display: flex;
   height : 500 px
+  padding: 5px
 }
 .delivery-detail {
 flex: 0 0 60%;
 }
 .summary {
+  margin-left 10px
   flex: 1;
 }
 .input {
@@ -121,6 +126,13 @@ flex: 0 0 60%;
   font-size: 10px;
   padding-top: 10px;
   padding-bottom: 100px;
+  padding-right: 100px;
+}
+.button{
+  background-color: coral
+  color: white
+  padding-top: 10px;
+  padding-bottom: 10px;
   padding-right: 100px;
 }
 </style>

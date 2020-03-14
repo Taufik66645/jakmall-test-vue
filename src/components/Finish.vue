@@ -3,14 +3,14 @@
     <div class="delivery-wrapper">
       <span class="delivery-detail">
         <h1>Thank you</h1>
-        <h3>Order Id : {{this.id}}</h3>
+        <h3>Order Id : {{ this.id }}</h3>
         <p>Your order will be delivered with GO-Send</p>
         <button>Go to Homepage</button>
       </span>
       <hr />
       <span class="summary">
         <h1>Summary</h1>
-        <p>10 Items purchased</p>
+        <p>{{productCount}} Items purchased</p>
         <h2>Total XXX.XXX</h2>
       </span>
     </div>
@@ -18,17 +18,26 @@
 </template>
 
 <script>
+import { EventBus } from "./eventBus.js";
+
 export default {
   name: "Delivery",
   data() {
     return {
-      id: "66645"
+      id: "66645",
+      productCount:""
     };
   },
+
   methods: {
-    input() {
-      console.log(this.email);
+    homepageButton() {
+      this.$router.replace("/");
     }
+  },
+  created() {
+    EventBus.$on("ChangeValue", data => {
+      this.productCount = data;
+    });
   }
 };
 </script>

@@ -3,42 +3,56 @@
     <div class="delivery-wrapper">
       <span class="delivery-detail">
         <h1>Shipment</h1>
-        <button @click="shipmentButton">
-          Go Send {{ this.shipmentMethod.gosend.price }}
-        </button>
-        <button @click="shipmentButton2">
-          JNE {{ this.shipmentMethod.jne.price }}
-        </button>
-        <button @click="shipmentButton3">
-          Personal Courier {{ this.shipmentMethod.personalCourier.price }}
-        </button>
-        <hr />
+        <hr class="line" />
+        <div class="ship-button-group">
+          <button @click="shipmentButton" class="ship-button">
+            Go Send <br />{{ this.shipmentMethod.gosend.price }}
+          </button>
+          <button @click="shipmentButton2" class="ship-button">
+            JNE <br />{{ this.shipmentMethod.jne.price }}
+          </button>
+          <button @click="shipmentButton3" class="ship-button">
+            Personal Courier <br />{{
+              this.shipmentMethod.personalCourier.price
+            }}
+          </button>
+        </div>
 
         <h1>Payment</h1>
-        <button @click="paymentButton">E - Wallet</button>
-        <button @click="paymentButton2">Bank Transfer</button>
-        <button @click="paymentButton3">Virtual Account</button>
+        <hr class="line" />
+        <button @click="paymentButton" class="button-pay">E - Wallet</button>
+        <button @click="paymentButton2" class="button-pay">
+          Bank Transfer
+        </button>
+        <button @click="paymentButton3" class="button-pay">
+          Virtual Account
+        </button>
       </span>
       <hr />
       <span class="summary">
         <h1>Summary</h1>
-        <p>10 Items purchased</p>
+        <p>{{ productCount }} Items purchased</p>
         <p>
           {{ this.shipmentMethod.result.type }} shipment :
           {{ this.shipmentMethod.result.price }}
         </p>
         <p>Delivery Estimation <br />{{ this.shipmentMethod.result.time }}</p>
-        <button>Pay with {{ this.paymentResult.result }}</button></span
+        <button @click="pay" class="button">
+          Pay with {{ this.paymentResult.result }}
+        </button></span
       >
     </div>
   </div>
 </template>
 
 <script>
+import { EventBus } from "./eventBus.js";
+
 export default {
   name: "Order",
   data() {
     return {
+      productCount: "",
       shipmentMethod: {
         gosend: {
           type: "Gosend",
@@ -72,6 +86,9 @@ export default {
     };
   },
   methods: {
+    pay() {
+      this.$router.replace("/finish");
+    },
     shipmentButton() {
       this.shipmentMethod.result.time = this.shipmentMethod.gosend.time;
       this.shipmentMethod.result.type = this.shipmentMethod.gosend.type;
@@ -96,6 +113,11 @@ export default {
     paymentButton3() {
       this.paymentResult.result = this.paymentMethod.vitualAccount;
     }
+  },
+  created() {
+    EventBus.$on("ChangeValue", data => {
+      this.productCount = data;
+    });
   }
 };
 </script>
@@ -104,11 +126,13 @@ export default {
 .delivery-wrapper {
   display: flex;
   height : 500 px
+  padding: 5 px
 }
 .delivery-detail {
 flex: 0 0 60%;
 }
 .summary {
+  margin-left 10px
   flex: 1;
 }
 .input {
@@ -123,5 +147,31 @@ flex: 0 0 60%;
   padding-top: 10px;
   padding-bottom: 100px;
   padding-right: 100px;
+}
+.line{
+  width : 250px
+  height :5 px
+  background-color : 	#E0E0E0
+  border : none
+ margin-left: 5px
+ margin-top: 5px
+}
+.ship-button-group {
+  margin-top: 0 px
+  margin-bottom 50 px
+}
+.ship-button{
+  height: 50px
+  padding-bottom: 10px;
+  padding-right: 50px;
+}
+.button-pay {
+  height: 40px
+  padding-bottom: 10px;
+  padding-right: 70px;
+}
+.button{
+  width: 300px
+  margin-bottom : 10 px
 }
 </style>
