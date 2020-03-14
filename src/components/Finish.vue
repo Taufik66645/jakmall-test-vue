@@ -3,7 +3,7 @@
     <div class="delivery-wrapper">
       <span class="delivery-detail">
         <h1>Thank you</h1>
-        <h3>Order Id : XXXXXX</h3>
+        <h3>Order Id : {{this.id}}</h3>
         <p>Your order will be delivered with GO-Send</p>
         <button>Go to Homepage</button>
       </span>
@@ -22,11 +22,7 @@ export default {
   name: "Delivery",
   data() {
     return {
-      email: "",
-      phone: "",
-      dropshipName: "",
-      address: "",
-      dropshipPhone: ""
+      id: "66645"
     };
   },
   methods: {

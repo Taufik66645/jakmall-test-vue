@@ -85,9 +85,9 @@ export default {
   },
   methods: {
     submit() {
-      if(this.email === ""){
+      if (this.email === "") {
         this.$router.replace("/delivery");
-        alert('cant empty')
+        alert("cant empty");
       }
       console.log(this.email);
       console.log(this.phone);

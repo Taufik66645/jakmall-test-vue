@@ -3,9 +3,15 @@
     <div class="delivery-wrapper">
       <span class="delivery-detail">
         <h1>Shipment</h1>
-        <button @click="shipmentButton">Go Send</button>
-        <button @click="shipmentButton2">JNE</button>
-        <button @click="shipmentButton3">Personal Courier</button>
+        <button @click="shipmentButton">
+          Go Send {{ this.shipmentMethod.gosend.price }}
+        </button>
+        <button @click="shipmentButton2">
+          JNE {{ this.shipmentMethod.jne.price }}
+        </button>
+        <button @click="shipmentButton3">
+          Personal Courier {{ this.shipmentMethod.personalCourier.price }}
+        </button>
         <hr />
 
         <h1>Payment</h1>
