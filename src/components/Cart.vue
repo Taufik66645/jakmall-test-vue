@@ -1,17 +1,17 @@
 <template>
   <div>
+    <h2 class="cart">Cart</h2>
+    <hr />
     <span class="product-card">
-      <h2 class="cart">Cart</h2>
-      <h3>Product 1</h3>
-      <h3>Item Price : 50.000</h3>
-
-      <h2>Quantity : {{ order.value }}</h2>
-      <button @click="minus">-</button>
-      <button @click="plus">+</button><br />
-      <h3>Total Price : {{ order.productPrice }}</h3>
-
-      <button class="button-purchase" @click="submit">Purchase</button>
+    
+      <h4>Item Price : 50.000</h4>
+      <h4>Quantity : {{ order.value }}</h4>
+      <h4>Total Price : {{ order.productPrice }}</h4>
+    <button @click="minus" class="button-purchase">-</button>
+    <button @click="plus" class="button-purchase">+</button>
+    <button class="button-purchase" @click="submit">Purchase</button>
     </span>
+    <hr>
   </div>
 </template>
 
@@ -65,12 +65,19 @@ export default {
 <style lang="stylus">
 .cart{
     color: coral
+    padding: 5px
     }
+    .product-card {
+      display : flex
+      justify-content : space-evenly
+      padding 5px
+    }
+
 .button-purchase {
       background-color: coral
       color: white
-      padding-top: 10px;
-      padding-bottom: 10px;
-      padding-right: 100px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-right: 10px;
     }
 </style>

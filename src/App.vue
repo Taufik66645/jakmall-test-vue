@@ -21,12 +21,15 @@ export default {
 <style>
 body {
   background-color: blanchedalmond;
+  
 }
 .app {
   background-color: white;
   max-width: 800px;
   height: 500px;
   align-items: center;
+  margin-left: 300px;
+  margin-right: 300px
 }
 .link {
   padding: 5px;
