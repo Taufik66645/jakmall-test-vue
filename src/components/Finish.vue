@@ -2,6 +2,7 @@
   <div>
     <div class="delivery-wrapper">
       <span class="delivery-detail">
+        <router-link to="/payment" class="link">Back to Payment</router-link>
         <h1 class="font">Thank you</h1>
         <hr class="line" />
 
