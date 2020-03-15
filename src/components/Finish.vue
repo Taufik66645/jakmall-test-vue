@@ -2,16 +2,29 @@
   <div>
     <div class="delivery-wrapper">
       <span class="delivery-detail">
-        <h1>Thank you</h1>
-        <h3>Order Id : {{ this.id }}</h3>
-        <p>Your order will be delivered with GO-Send</p>
-        <button>Go to Homepage</button>
+        <h1 class="font">Thank you</h1>
+        <hr class="line" />
+
+        <h3>Order Id : {{ data.Orderid }}</h3>
+        <p>Your order will be delivered with {{data.shipmentMethod}}</p>
+        <router-link to="/" class="link"
+          ><button>Go to Homepage</button></router-link
+        >
       </span>
       <hr />
       <span class="summary">
-        <h1>Summary</h1>
-        <p>{{productCount}} Items purchased</p>
-        <h2>Total XXX.XXX</h2>
+        <h1 class="font">Summary</h1>
+        <p>{{ data.productCount }} Items purchased</p>
+
+        <p>Delivery Estimation {{ data.estimate }}<br /></p>
+        <p>Payment Method {{ data.paymentMethod }}</p>
+        <p>Cost of goods : Rp. {{ data.productPrice }}</p>
+        <p>Dropshipping fee : Rp. {{ data.dropshipPrice }}</p>
+        <p>
+          <strong>{{ data.shipmentMethod }}</strong> shipment :
+          {{ data.shipPrice }}
+        </p>
+        <h2 class="font">Total : {{ data.totalPrice }}</h2>
       </span>
     </div>
   </div>
@@ -24,20 +37,44 @@ export default {
   name: "Delivery",
   data() {
     return {
-      id: "66645",
-      productCount:""
+      data: {
+        Orderid: "tfk66645",
+        productCount: 0,
+        productPrice: 0,
+        dropshipPrice: 0,
+        estimate: "",
+        totalPrice: 0,
+        paymentMethod: "",
+        shipmentMethod: "",
+        shipPrice: 0
+      }
     };
   },
-
-  methods: {
-    homepageButton() {
-      this.$router.replace("/");
-    }
-  },
+  methods: {},
   created() {
-    EventBus.$on("ChangeValue", data => {
-      this.productCount = data;
-    });
+    EventBus.$on(
+      "changePayment",
+      ({
+        productCount,
+        productPrice,
+        totalPrice,
+        dropshipPrice,
+        time,
+        result,
+        type,
+        price
+      }) => {
+        this.data.productCount = productCount;
+        this.data.productPrice = productPrice;
+        this.data.totalPrice = totalPrice;
+        this.data.dropshipPrice = dropshipPrice;
+        this.data.paymentMethod = result;
+        this.data.estimate = time;
+        this.data.shipmentMethod = type;
+        this.data.shipPrice = price;
+      }
+    );
+    console.log(this.productPrice);
   }
 };
 </script>
@@ -65,5 +102,16 @@ flex: 0 0 60%;
   padding-top: 10px;
   padding-bottom: 100px;
   padding-right: 100px;
+}
+.line{
+  width : 250px
+  height :5 px
+  background-color : 	#E0E0E0
+  border : none
+ margin-left: 5px
+ margin-top: 5px
+}
+.font {
+  color : coral
 }
 </style>

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <router-link to="/" class="link">Cart</router-link>
+    <!-- <router-link to="/" class="link">Cart</router-link>
     <router-link to="/delivery" class="link">Delivery</router-link>
     <router-link to="/payment" class="link">Payment</router-link>
-    <router-link to="/finish" class="link">Finish</router-link>
+    <router-link to="/finish" class="link">Finish</router-link> -->
     <div id="app" class="app">
       <keep-alive>
         <router-view></router-view>

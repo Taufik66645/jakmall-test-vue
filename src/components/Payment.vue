@@ -2,23 +2,24 @@
   <div>
     <div class="delivery-wrapper">
       <span class="delivery-detail">
-        <h1>Shipment</h1>
+        <router-link to="/delivery" class="link">Back to Delivery</router-link>
+        <h1 class="font">Shipment</h1>
         <hr class="line" />
         <div class="ship-button-group">
-          <button @click="shipmentButton" class="ship-button">
-            Go Send <br />{{ this.shipmentMethod.gosend.price }}
+          <button @click.once="shipmentButton" class="ship-button">
+            Go Send <br />{{ payment.shipmentMethod.gosend.price }}
           </button>
-          <button @click="shipmentButton2" class="ship-button">
-            JNE <br />{{ this.shipmentMethod.jne.price }}
+          <button @click.once="shipmentButton2" class="ship-button">
+            JNE <br />{{ payment.shipmentMethod.jne.price }}
           </button>
-          <button @click="shipmentButton3" class="ship-button">
+          <button @click.once="shipmentButton3" class="ship-button">
             Personal Courier <br />{{
-              this.shipmentMethod.personalCourier.price
+              payment.shipmentMethod.personalCourier.price
             }}
           </button>
         </div>
 
-        <h1>Payment</h1>
+        <h1 class="font">Payment</h1>
         <hr class="line" />
         <button @click="paymentButton" class="button-pay">E - Wallet</button>
         <button @click="paymentButton2" class="button-pay">
@@ -30,15 +31,18 @@
       </span>
       <hr />
       <span class="summary">
-        <h1>Summary</h1>
-        <p>{{ productCount }} Items purchased</p>
+        <h1 class="font">Summary</h1>
+        <p>{{ payment.productCount }} Items purchased</p>
         <p>
-          {{ this.shipmentMethod.result.type }} shipment :
-          {{ this.shipmentMethod.result.price }}
+          {{ payment.type }} shipment :
+          {{ payment.price }}
         </p>
-        <p>Delivery Estimation <br />{{ this.shipmentMethod.result.time }}</p>
+        <p>Delivery Estimation <br />{{ payment.time }}</p>
+        <p>Cost of goods : Rp. {{ payment.productPrice }}</p>
+        <p>Dropshipping fee : Rp. {{ payment.dropshipPrice }}</p>
+        <h3>Total : {{ payment.totalPrice }}</h3>
         <button @click="pay" class="button">
-          Pay with {{ this.paymentResult.result }}
+          Pay with {{ payment.result }}
         </button></span
       >
     </div>
@@ -49,75 +53,92 @@
 import { EventBus } from "./eventBus.js";
 
 export default {
-  name: "Order",
+  name: "Payment",
   data() {
     return {
-      productCount: "",
-      shipmentMethod: {
-        gosend: {
-          type: "Gosend",
-          price: "15.000",
-          time: "Today by Gosend"
+      payment: {
+        productCount: 0,
+        productPrice: 0,
+        dropshipPrice: 0,
+        totalPrice: 0,
+        type: "",
+        price: "",
+        time: "",
+        result: "",
+        shipmentMethod: {
+          gosend: {
+            type: "Gosend",
+            price: 15000,
+            time: "Today by Gosend"
+          },
+          jne: {
+            type: "JNE",
+            price: 9000,
+            time: "2 days by JNE"
+          },
+          personalCourier: {
+            type: "Personal Courier",
+            price: 29000,
+            time: "1 day by Personal Courier"
+          }
         },
-        jne: {
-          type: "JNE",
-          price: "9000",
-          time: "2 days by JNE"
-        },
-        personalCourier: {
-          type: "Personal Courier",
-          price: "29.000",
-          time: "1 day by Personal Courier"
-        },
-        result: {
-          type: "",
-          price: "",
-          time: ""
+        paymentMethod: {
+          ewallet: "e - wallet",
+          bankTransfer: " Bank Transfer",
+          vitualAccount: "virtual Account"
         }
-      },
-      paymentMethod: {
-        ewallet: "e - wallet",
-        bankTransfer: " Bank Transfer",
-        vitualAccount: "virtual Account"
-      },
-      paymentResult: {
-        result: ""
       }
     };
   },
+  created() {
+    EventBus.$on(
+      "changeDelivery",
+      ({ productCount, productPrice, dropshippriceCheck, totalPrice }) => {
+        this.payment.productCount = productCount;
+        this.payment.productPrice = productPrice;
+        this.payment.totalPrice = totalPrice;
+        this.payment.dropshipPrice = dropshippriceCheck;
+      }
+    );
+  },
   methods: {
-    pay() {
-      this.$router.replace("/finish");
-    },
     shipmentButton() {
-      this.shipmentMethod.result.time = this.shipmentMethod.gosend.time;
-      this.shipmentMethod.result.type = this.shipmentMethod.gosend.type;
-      this.shipmentMethod.result.price = this.shipmentMethod.gosend.price;
+      this.payment.time = this.payment.shipmentMethod.gosend.time;
+      this.payment.type = this.payment.shipmentMethod.gosend.type;
+      this.payment.price = this.payment.shipmentMethod.gosend.price;
+      this.payment.totalPrice = this.payment.totalPrice + this.payment.price;
     },
     shipmentButton2() {
-      this.shipmentMethod.result.time = this.shipmentMethod.jne.time;
-      this.shipmentMethod.result.type = this.shipmentMethod.jne.type;
-      this.shipmentMethod.result.price = this.shipmentMethod.jne.price;
+      this.payment.time = this.payment.shipmentMethod.jne.time;
+      this.payment.type = this.payment.shipmentMethod.jne.type;
+      this.payment.price = this.payment.shipmentMethod.jne.price;
+      this.payment.totalPrice = this.payment.totalPrice + this.payment.price;
     },
     shipmentButton3() {
-      this.shipmentMethod.result.time = this.shipmentMethod.personalCourier.time;
-      this.shipmentMethod.result.type = this.shipmentMethod.personalCourier.type;
-      this.shipmentMethod.result.price = this.shipmentMethod.personalCourier.price;
+      this.payment.time = this.payment.shipmentMethod.personalCourier.time;
+      this.payment.type = this.payment.shipmentMethod.personalCourier.type;
+      this.payment.price = this.payment.shipmentMethod.personalCourier.price;
+      this.payment.totalPrice = this.payment.totalPrice + this.payment.price;
     },
     paymentButton() {
-      this.paymentResult.result = this.paymentMethod.ewallet;
+      this.payment.result = this.payment.paymentMethod.ewallet;
     },
     paymentButton2() {
-      this.paymentResult.result = this.paymentMethod.bankTransfer;
+      this.payment.result = this.payment.paymentMethod.bankTransfer;
     },
     paymentButton3() {
-      this.paymentResult.result = this.paymentMethod.vitualAccount;
+      this.payment.result = this.payment.paymentMethod.vitualAccount;
+    },
+    pay() {
+      if (this.payment.type === "") {
+        alert("select shipment");
+      } else if (this.payment.result.result === "") {
+        alert("select payment method");
+      } else {
+        this.$router.replace("/finish");
+        EventBus.$emit("changePayment", this.payment);
+      }
     }
-  },
-  created() {
-    EventBus.$on("ChangeValue", data => {
-      this.productCount = data;
-    });
   }
 };
 </script>
@@ -173,5 +194,8 @@ flex: 0 0 60%;
 .button{
   width: 300px
   margin-bottom : 10 px
+}
+.font {
+  color: coral
 }
 </style>

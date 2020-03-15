@@ -15,14 +15,12 @@ const routes = [
   { path: "/delivery", component: Delivery },
   { path: "/payment", component: Payment },
   { path: "/finish", component: Finish }
-
-
 ];
 
-const router = new VueRouter ({
+const router = new VueRouter({
   routes,
-  mode:"history"
-})
+  mode: "history"
+});
 
 new Vue({
   render: h => h(App),

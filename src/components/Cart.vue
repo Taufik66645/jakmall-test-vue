@@ -5,10 +5,10 @@
       <h3>Product 1</h3>
       <h3>Item Price : 50.000</h3>
 
-      <h2>Quantity : {{ value }}</h2>
+      <h2>Quantity : {{ order.value }}</h2>
       <button @click="minus">-</button>
       <button @click="plus">+</button><br />
-      <h3>Total Price : {{ productPrice }}</h3>
+      <h3>Total Price : {{ order.productPrice }}</h3>
 
       <button class="button-purchase" @click="submit">Purchase</button>
     </span>
@@ -22,42 +22,38 @@ export default {
   name: "Order",
   data() {
     return {
-      value: 0,
-      price: "50000",
-      productPrice: 0
+      order: {
+        value: 0,
+        price: "50000",
+        productPrice: 0
+      }
     };
   },
   methods: {
     minus() {
-      this.value = this.value - 1;
-      this.productPrice = this.price * this.value;
-
-      if (this.value < 0) {
-        this.value = 0;
-        this.productPrice = 0;
+      this.order.value = this.order.value - 1;
+      this.order.productPrice = this.order.price * this.order.value;
+      if (this.order.value < 0) {
+        this.order.value = 0;
+        this.order.productPrice = 0;
 
         alert("cant minus");
       }
     },
     plus() {
-      this.value++;
-
-      this.productPrice = this.price * this.value;
-
-      if (this.value > 10) {
-        this.value = 10;
+      this.order.value++;
+      this.order.productPrice = this.order.price * this.order.value;
+      if (this.order.value > 10) {
+        this.order.value = 10;
         alert("maximum purchasing");
-        this.productPrice = 500000;
+        this.order.productPrice = 500000;
       }
     },
 
     submit() {
-      EventBus.$emit("ChangePrice", this.productPrice);
-      // EventBus.$emit("ChangePrice", this.productPrice);
-
-      console.log(this.value);
-      if (this.value >= 1) {
+      if (this.order.value >= 1) {
         this.$router.replace("/delivery");
+        EventBus.$emit("changeOrder", this.order);
       } else {
         alert("minimum quantity 1");
       }
@@ -67,11 +63,6 @@ export default {
 </script>
 
 <style lang="stylus">
-
-
-
-
-
 .cart{
     color: coral
     }

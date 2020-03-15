@@ -2,17 +2,18 @@
   <div>
     <div class="delivery-wrapper">
       <form class="delivery-detail">
-        <h1>Delivery Details</h1>
-        <input
-          type="checkbox"
-          
-          @change="check($event)"
-        />
+        <router-link to="/" class="font">Back to Cart</router-link>
+
+        <h1 class="font">Delivery Details</h1>
+        <hr class="line" />
+
+        <input type="checkbox" v-on:click="activateDropship" id="dropship" />
+        <label for="dropship">Send as Dropshipper</label>
 
         <br />
         <input
           id="email"
-          v-model="email"
+          v-model="delivery.email"
           type="email"
           name="email"
           class="input"
@@ -20,7 +21,7 @@
         />
         <input
           id="phone"
-          v-model="phone"
+          v-model="delivery.phone"
           type="text"
           name="phone"
           placeholder="Phone Number"
@@ -28,7 +29,7 @@
         />
         <input
           id="dropshipName"
-          v-model="dropshipName"
+          v-model="delivery.dropshipName"
           type="text"
           name="dropshipName"
           placeholder="Dropshipper Name"
@@ -37,26 +38,29 @@
         <input
           type="text"
           id="dropshipPhone"
-          v-model="dropshipPhone"
+          v-model="delivery.dropshipPhone"
           placeholder="Dropshipper Phone"
           class="input"
         />
         <input
           id="address"
-          v-model="address"
+          v-model="delivery.address"
           type="text"
           name="address"
           placeholder="Delivery Address"
           class="delivery-input"
+          
         />
+        
       </form>
       <hr />
       <span class="summary">
-        <h1>Summary</h1>
-        <p>{{ productCount }} Items purchased</p>
-        <p>Cost of goods : Rp. {{ productPrice }}</p>
-        <p>Dropshipping fee : Rp. {{ checked }}</p>
-        <h3>Total : {{ productPrice }}</h3>
+        <h1 class="font">Summary</h1>
+        <hr />
+        <p>{{ delivery.productCount }} Items purchased</p>
+        <p>Cost of goods : Rp. {{ delivery.productPrice }}</p>
+        <p>Dropshipping fee : Rp. {{ delivery.dropshippriceCheck }}</p>
+        <h3 class="font">Total : {{ delivery.totalPrice }}</h3>
         <button @click="button" class="button">Continue to payment</button>
       </span>
     </div>
@@ -70,34 +74,49 @@ export default {
   name: "Delivery",
   data() {
     return {
-      email: "",
-      phone: "",
-      dropshipName: "",
-      address: "",
-      dropshipPhone: "",
-      productCount: "",
-      productPrice: "",
-      dropshippriceCheck: "5900",
-      dropshipPrice: "",
-      totalPrice: ""
+      delivery: {
+        email: "",
+        phone: "",
+        dropshipName: "",
+        address: "",
+        dropshipPhone: "",
+        productCount: 0,
+        productPrice: 0,
+        dropshippriceCheck: 5900,
+        dropshipPrice: 0,
+        totalPrice: 0
+      }
     };
   },
   methods: {
     button() {
-      this.$router.replace("/payment");
+      EventBus.$emit("changeDelivery", this.delivery);
+      if (this.delivery.email === "") {
+        alert("fill the form");
+      } else {
+        this.$router.replace("/payment");
+      }
+    },
+    activateDropship(event) {
+      if (event.target.checked) {
+        this.delivery.dropshipPrice = this.delivery.dropshippriceCheck;
+        this.delivery.totalPrice =
+          this.delivery.productPrice + this.delivery.dropshippriceCheck;
+      } else {
+        this.delivery.totalPrice = this.delivery.productPrice;
+      }
     }
   },
-  
-    check: function() {
-		console.log('true')
-  },
+
   created() {
-    EventBus.$on("ChangePrice", data => {
-      this.productPrice = data;
+    EventBus.$on("changeOrder", ({ value, productPrice }) => {
+      this.delivery.productCount = value;
+      this.delivery.productPrice = productPrice;
+      this.delivery.totalPrice = productPrice;
     });
   },
-  updates() {
-    this.totalPrice = this.productPrice + this.dropshippriceCheck;
+  back() {
+    this.$router.go("/");
   }
 };
 </script>
@@ -134,5 +153,16 @@ flex: 0 0 60%;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-right: 100px;
+}
+.line{
+  width : 250px
+  height :5 px
+  background-color : 	#E0E0E0
+  border : none
+ margin-left: 5px
+ margin-top: 5px
+}
+.font {
+  color : coral
 }
 </style>
