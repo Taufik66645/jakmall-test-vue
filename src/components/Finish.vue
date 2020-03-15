@@ -6,7 +6,7 @@
         <hr class="line" />
 
         <h3>Order Id : {{ data.Orderid }}</h3>
-        <p>Your order will be delivered with {{data.shipmentMethod}}</p>
+        <p>Your order will be delivered with {{ data.shipmentMethod }}</p>
         <router-link to="/" class="link"
           ><button>Go to Homepage</button></router-link
         >
@@ -15,16 +15,17 @@
       <span class="summary">
         <h1 class="font">Summary</h1>
         <p>{{ data.productCount }} Items purchased</p>
-
-        <p>Delivery Estimation {{ data.estimate }}<br /></p>
-        <p>Payment Method {{ data.paymentMethod }}</p>
-        <p>Cost of goods : Rp. {{ data.productPrice }}</p>
-        <p>Dropshipping fee : Rp. {{ data.dropshipPrice }}</p>
-        <p>
-          <strong>{{ data.shipmentMethod }}</strong> shipment :
-          {{ data.shipPrice }}
-        </p>
-        <h2 class="font">Total : {{ data.totalPrice }}</h2>
+        <div class="summary-section">
+          <p>Delivery Estimation {{ data.estimate }}<br /></p>
+          <p>Payment Method {{ data.paymentMethod }}</p>
+          <p>Cost of goods : Rp. {{ data.productPrice }}</p>
+          <p>Dropshipping fee : Rp. {{ data.dropshipPrice }}</p>
+          <p>
+            <strong>{{ data.shipmentMethod }}</strong> shipment :
+            {{ data.shipPrice }}
+          </p>
+          <h2 class="font">Total : {{ data.totalPrice }}</h2>
+        </div>
       </span>
     </div>
   </div>
@@ -113,5 +114,8 @@ flex: 0 0 60%;
 }
 .font {
   color : coral
+}
+.summary-section {
+  margin-bottom : 0px
 }
 </style>
