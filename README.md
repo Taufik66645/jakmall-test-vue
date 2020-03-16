@@ -19,7 +19,7 @@ Issue :
 
 1. The design still very simple and not as expected
 
-![this screenshot](src/assets/One.png)
+![this screenshot](src/assets/Update1.png)
 
 #### 1. Delivery
 
@@ -31,7 +31,7 @@ Issue :
 2. Form validation like : email, max character still not function
 3. Sometime the data are ot receive directly from cart. must back again then trigger again with purchase
 
-![this screenshot](src/assets/Two.png)
+![this screenshot](src/assets/Update2.png)
 
 #### 1. Payment and Shiping
 
@@ -45,7 +45,7 @@ Issue :
 2. due to @click.once. cannot move to another button which already clicked in first place, then the state will update for the last button clicked
 3. Sometime the data are not receive directly from delivery. must back again then trigger again with purchase
 
-![this screenshot](src/assets/Three.png)
+![this screenshot](src/assets/Update3.png)
 
 #### 1. Finish
 
@@ -56,6 +56,6 @@ This the last Page I built. In this page we can see in the summary for all the d
 4. The Automatic id still not available
 5. Back Homepage button still not refreshing all the state from cart - payment
 
-![this screenshot](src/assets/Four.png)
+![this screenshot](src/assets/Update4.png)
 
 
